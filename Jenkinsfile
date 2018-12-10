@@ -1,7 +1,7 @@
 
 //Author: Mario E. Montenegro
 
-def dirsChanged = ''
+def dirsChanged = []
 
 def performIntegrationStages(String app) {
     dir ("${app}") {
@@ -29,9 +29,9 @@ pipeline {
                 script {
                     // This command results in output indicating several one of these and the affected files:
                     // Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R)
-                    def commitChangeset = sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-status -r HEAD').trim()
+                    def commitChangeset = sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-only -r HEAD').trim()
                     for (dirChanged in commitChangeset) {
-                        if (dirChanged == 'M' || dirChanged == 'A') {
+                        if (dirChanged != 'Jenkinsfile') {
                             dirsChanged += dirChanged
                         }
                     }
