@@ -32,7 +32,8 @@ pipeline {
                     def commitChangeset = sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-only -r HEAD').trim()
                     for (dirChanged in commitChangeset) {
                         if (dirChanged != 'Jenkinsfile') {
-                            dirsChanged += dirChanged
+                            echo dirChanged
+                            dirsChanged += (dirChanged)
                         }
                     }
                 }
